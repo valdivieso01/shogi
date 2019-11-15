@@ -81,7 +81,6 @@ class Jugador:
 
     def hacer_jugada(self, color, inicial, final):
         # Si es una pieza entro
-        print("adentro")
         if tablero.tab[inicial[0]][inicial[1]]:
             # Verifico que tipo de pieza es para despues analizar el movimiento
             if tablero.tab[inicial[0]][inicial[1]].color == color:

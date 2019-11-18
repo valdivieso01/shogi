@@ -15,50 +15,69 @@ while tablero.juego != 'termiando':
     while turno1 is True:
         entrada = input("Jugador negro, ingrese posicion x e y de pieza a mover (Separados por un espacio):")
         try:
-            x, y = (int(item) for item in entrada.split())
+            x1, y1 = (int(item) for item in entrada.split())
         except ValueError:
             print("Valor incorrecto")
-            break
-        if j1.validar_posiciones(x, y) is True:
-            negro_inicial = (x, y)
+            continue
+        if j1.validar_posiciones(x1, y1) is True:
+            negro_inicial = (x1, y1)
         else:
-            break
+            print("Valor fuera de tablero")
+            continue
         entrada = input("Jugador negro, ingrese posicion x e y de destino de pieza (Separados por un espacio): ")
         try:
-            x, y = (int(item) for item in entrada.split())
+            x1, y1 = (int(item) for item in entrada.split())
         except ValueError:
             print("Valor incorrecto")
-        if j1.validar_posiciones(x, y) is True:
-            negro_final = (x, y)
+            continue
+        if j1.validar_posiciones(x1, y1) is True:
+            negro_final = (x1, y1)
         else:
-            break
-        if j1.jugar_pieza(tablero, j1.color, negro_inicial, negro_final) is True:
-            turno1 = False
+            print("Valor fuera de tablero")
+            continue
+        if tablero.verificar_jaque(j1.color) is False:
+            if j1.jugar_pieza(tablero, j1.color, negro_inicial, negro_final) is True:
+                turno1 = False
+            else:
+                tablero.imprimir()
+        else:
+            if j1.jugar_pieza_en_jaque(tablero, j1.color, negro_inicial, negro_final) is True:
+                turno1 = False
+            else:
+                tablero.imprimir()
 
     tablero.imprimir()
 
     while turno2 is True:
         entrada = input("Jugador blanco, ingrese posicion x e y de pieza a mover (Separados por un espacio):")
         try:
-            x, y = (int(item) for item in entrada.split())
+            x2, y2 = (int(item) for item in entrada.split())
         except ValueError:
             print("Valor incorrecto")
-            break
-        if j2.validar_posiciones(x, y) is True:
-            blanco_inicial = (x, y)
+            continue
+        if j2.validar_posiciones(x2, y2) is True:
+            blanco_inicial = (x2, y2)
         else:
-            break
+            print("Valor fuera de tablero")
+            continue
         entrada = input("Jugador blanco, ingrese posicion x e y de destino de pieza (Separados por un espacio): ")
         try:
-            x, y = (int(item) for item in entrada.split())
+            x2, y2 = (int(item) for item in entrada.split())
         except ValueError:
             print("Valor incorrecto")
-        if j2.validar_posiciones(x, y) is True:
-            blanco_final = (x, y)
+            continue
+        if j2.validar_posiciones(x2, y2) is True:
+            blanco_final = (x2, y2)
         else:
-            break
-        if j2.jugar_pieza(tablero, j2.color, negro_inicial, negro_final) is True:
-            turno2 = False
-
-    turno1 = True
-    turno2 = True
+            print("Valor fuera de tablero")
+            continue
+        if tablero.verificar_jaque(j2.color) is False:
+            if j2.jugar_pieza(tablero, j2.color, blanco_inicial, blanco_final) is True:
+                turno2 = False
+            else:
+                tablero.imprimir()
+        else:
+            if j2.jugar_pieza_en_jaque(tablero, j2.color, blanco_inicial, blanco_final) is True:
+                turno2 = False
+            else:
+                tablero.imprimir()

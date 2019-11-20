@@ -58,7 +58,7 @@ class Jugador(object):
          or posicion_final[0] == posicion_inicial[0] and posicion_final[1] == posicion_inicial[1] + 1 or posicion_final[0] == posicion_inicial[0] - 1 and posicion_final[1] == posicion_inicial[1] \
          or posicion_final[0] == posicion_inicial[0] - 1 and posicion_final[1] == posicion_inicial[1] + 1 or posicion_final[0] == posicion_inicial[0] - 1 and posicion_final[1] == posicion_inicial[1] - 1:
              # Si el destino está libre, movemos el rey
-             return self.mover_pieza(color, tablero, posicion_inicial, posicion_final)
+             return tablero.mover_pieza(color, tablero, posicion_inicial, posicion_final)
          else:
              print("El rey está en jaque, solo puede mover el rey")
              return False

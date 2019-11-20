@@ -61,10 +61,10 @@ class Tablero(object):
                     if j.estado == 'viva':
                         if j.color == 'negro':
                             print(' ' + j.nombre, end='')
-                            print('🞄▼ |', end='')
+                            print(' ▼ |', end='')
                         else:
                             print(' ' + j.nombre, end='')
-                            print('🞄▲ |', end='')
+                            print(' ▲ |', end='')
                     else:
                         print('  -  |', end='')
                 else:
@@ -100,19 +100,34 @@ class Tablero(object):
                     else:
                         return False
 
-    def incorporar_piezas(self, color):
+    def mostrar_piezas_muertas(self, color):
+        if self.piezas_muertas:
+            p = 0
+            for i in self.piezas_muertas:
+                if i.color == color:
+                    print(i.nombre)
+                    p += 1
+            if p > 0:
+                return True
+            else:
+                print('No hay piezas para reincorporar')
+                return False
+
+    def incorporar_piezas(self, color, pieza_muerta):
         global i
         print("Piezas capturadas")
         # Listo las piezas que el jugador a comido al adversario
-        for i in self.tab.piezas_muertas:
-            if i.color == color:
-                print(i.nombre)
-        pieza_muerta = input("¿que pieza desea incorporar?")
-        for i in self.tab.piezas_muertas:
+        for i in self.piezas_muertas:
             if i.nombre == pieza_muerta:
-                for i in self.tab.piezas_muertas:
+                for i in self.piezas_muertas:
                     if i.color == color:
                         if i.nombre == pieza_muerta:
-                            posicion_donde_incorporar = input("Ingrese fila y columna de pieza a reincorporar (Separados por un espacio):")
+                            posicion_donde_incorporar = input("Ingrese fila y columna de la posicion donde desea reincorporar (Separados por un espacio):")
                             fila, columna = (int(item) for item in posicion_donde_incorporar.split())
-                            self.tab.tab[fila][columna].color = self.tab.piezas_muertas[i]
+                            self.tab[fila][columna] = i
+                            self.piezas_muertas.remove(i)
+                    else:
+                        return False
+            else:
+                print("No existe la pieza elegida")
+                return False

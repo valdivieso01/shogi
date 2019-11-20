@@ -6,7 +6,6 @@ j1 = Jugador('negro')
 j2 = Jugador('blanco')
 tablero.imprimir()
 
-
 while tablero.juego != 'termiando':
     negro_inicial = []
     negro_final = []
@@ -16,9 +15,14 @@ while tablero.juego != 'termiando':
     turno2 = True
     while turno1 is True:
         print("JUGADOR NEGRO")
-        entrada = input("Desea incorporar pieza? S/N")
-        if entrada == 'S':
-            tablero.incorporar_piezas(j1.color)
+        if tablero.mostrar_piezas_muertas(j1.color):
+            entrada = input("Desea incorporar pieza? S/N")
+            if entrada == 'S':
+                pieza_muerta = input("¿que pieza desea incorporar?")
+                if tablero.incorporar_piezas(j1.color, pieza_muerta):
+                    print("Pieza incorporada")
+                else:
+                    print("No hay piezas para incorporar")
         entrada = input("Ingrese fila y columna de pieza a mover (Separados por un espacio):")
         try:
             x1, y1 = (int(item) for item in entrada.split())
@@ -58,9 +62,14 @@ while tablero.juego != 'termiando':
     while turno2 is True:
         print("JUGADOR BLANCO")
         print("Piezas capturadas")
-        entrada = input("Desea incorporar pieza? S/N")
-        if entrada == 'S':
-            tablero.incorporar_piezas(j1.color)
+        if tablero.mostrar_piezas_muertas(j2.color):
+            entrada = input("Desea incorporar pieza? S/N")
+            if entrada == 'S':
+                pieza_muerta = input("¿que pieza desea incorporar?")
+                if tablero.incorporar_piezas(j2.color, pieza_muerta):
+                    print("Pieza incorporada")
+                else:
+                    print("No hay piezas para incorporar")
         # Listo las piezas que el jugador a comido al adversario
         entrada = input("Ingrese fila y columna de pieza a mover (Primero fila y luego columna, separados por un espacio):")
         try:

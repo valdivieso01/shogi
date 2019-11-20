@@ -21,7 +21,7 @@ class Pieza(object):
             else:
                 jugador_inactivo = 'negro'
             if tablero.tab[posicion_final[0]][posicion_final[1]].color == jugador_inactivo:
-                tablero.tab[posicion_final[0]][posicion_final[1]].estado = 'muerta'
+                #tablero.tab[posicion_final[0]][posicion_final[1]].estado = 'muerta'
                 tablero.tab[posicion_final[0]][posicion_final[1]].color = jugador_activo
                 tablero.piezas_muertas.append(tablero.tab[posicion_final[0]][posicion_final[1]])
                 tablero.tab[posicion_final[0]][posicion_final[1]] = tablero.tab[posicion_inicial[0]][posicion_inicial[1]]

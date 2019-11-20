@@ -62,6 +62,3 @@ class Jugador(object):
          else:
              print("El rey está en jaque, solo puede mover el rey")
              return False
-
-    def ingresar_pieza(self, color, inicial, final):
-         pass

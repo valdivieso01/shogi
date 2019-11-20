@@ -1,9 +1,11 @@
-from shogy import Tablero, Jugador
+from jugador import *
+from tablero import *
 
 tablero = Tablero()
 j1 = Jugador('negro')
 j2 = Jugador('blanco')
 tablero.imprimir()
+
 
 while tablero.juego != 'termiando':
     negro_inicial = []
@@ -14,12 +16,9 @@ while tablero.juego != 'termiando':
     turno2 = True
     while turno1 is True:
         print("JUGADOR NEGRO")
-        print("Piezas capturadas")
-        # Listo las piezas que el jugador a comido al adversario
-        for i in tablero.piezas_muertas:
-                if i.estado == 'muerta':
-                    if i.color == 'negro':
-                        print(i.nombre)
+        entrada = input("Desea incorporar pieza? S/N")
+        if entrada == 'S':
+            tablero.incorporar_piezas(j1.color)
         entrada = input("Ingrese fila y columna de pieza a mover (Separados por un espacio):")
         try:
             x1, y1 = (int(item) for item in entrada.split())
@@ -59,11 +58,10 @@ while tablero.juego != 'termiando':
     while turno2 is True:
         print("JUGADOR BLANCO")
         print("Piezas capturadas")
+        entrada = input("Desea incorporar pieza? S/N")
+        if entrada == 'S':
+            tablero.incorporar_piezas(j1.color)
         # Listo las piezas que el jugador a comido al adversario
-        for i in tablero.piezas_muertas:
-                if i.estado == 'muerta':
-                    if i.color == 'blanco':
-                        print(i.nombre)
         entrada = input("Ingrese fila y columna de pieza a mover (Primero fila y luego columna, separados por un espacio):")
         try:
             x2, y2 = (int(item) for item in entrada.split())

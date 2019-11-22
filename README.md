@@ -1,5 +1,7 @@
 # shogi
-Juego shogi desarrollado en python utilziando la libreria numpy
+Juego shogi desarrollado en python 
+
+Librerias utilizadas: numpy
 
 Funcionalidades implementadas:
 

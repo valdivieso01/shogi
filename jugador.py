@@ -45,20 +45,37 @@ class Jugador(object):
                 elif tablero.tab[posicion_inicial[0]][posicion_inicial[1]].__class__ is Lancero:
                     return tablero.tab[posicion_inicial[0]][posicion_inicial[1]].mover_lancero(tablero, posicion_inicial, posicion_final, color_de_jugador)
             else:
-                print("Pieza de adversario")
+                #print("Pieza de adversario")
                 return False
         else:
-            print("No hay pieza para esa ubicacion")
+            #print("No hay pieza para esa ubicacion")
             return False
 
-    def jugar_pieza_en_jaque(self, tablero, color, posicion_inicial, posicion_final):
-         # Cuando el jugador esta en jaque solo puede move rel rey
-         if posicion_final[0] == posicion_inicial[0] + 1 and posicion_final[1] == posicion_inicial[1] or posicion_final[0] == posicion_inicial[0] + 1 and posicion_final[1] == posicion_inicial[1] + 1 \
-         or posicion_final[0] == posicion_inicial[0] + 1 and posicion_final[1] == posicion_inicial[1] - 1 or posicion_final[0] == posicion_inicial[0] and posicion_final[1] == posicion_inicial[1] - 1 \
-         or posicion_final[0] == posicion_inicial[0] and posicion_final[1] == posicion_inicial[1] + 1 or posicion_final[0] == posicion_inicial[0] - 1 and posicion_final[1] == posicion_inicial[1] \
-         or posicion_final[0] == posicion_inicial[0] - 1 and posicion_final[1] == posicion_inicial[1] + 1 or posicion_final[0] == posicion_inicial[0] - 1 and posicion_final[1] == posicion_inicial[1] - 1:
-             # Si el destino está libre, movemos el rey
-             return tablero.mover_pieza(color, tablero, posicion_inicial, posicion_final)
-         else:
-             print("El rey está en jaque, solo puede mover el rey")
-             return False
+    def verificar_jaque(self, ultimo_jugador, tablero):
+        jaque = False
+        pieza_rey = (0, 0)
+        if ultimo_jugador.color == 'negro':
+            color_ultimo_jugador = 'negro'
+            color_siguiente_jugador = 'blanco'
+        else:
+            color_ultimo_jugador = 'blanco'
+            color_siguiente_jugador = 'negro'
+        for i in range(9):
+            for j in range(9):
+                if tablero.tab[i][j].__class__ == Rey:
+                    if tablero.tab[i][j].color == color_siguiente_jugador:
+                        pieza_rey = (i, j)
+        for i in tablero.tab:
+            for j in i:
+                if j and j.color == color_ultimo_jugador:
+                    for k in range(9):
+                        for l in range(9):
+                            pieza_cualquiera = (k, l)
+                            if tablero.tab[k][l]:
+                                if tablero.tab[k][l].__class__ is not Rey:
+                                    if self.jugar_pieza(tablero, j.color, pieza_cualquiera, pieza_rey) is True:
+                                        jaque = True
+                                        return jaque
+                                    else:
+                                        continue
+        return jaque

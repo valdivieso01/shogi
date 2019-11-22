@@ -45,19 +45,18 @@ while tablero.juego != 'termiando':
         else:
             print("Valor fuera de tablero")
             continue
-        if tablero.verificar_jaque(j1.color) is False:
-            if j1.jugar_pieza(tablero, j1.color, negro_inicial, negro_final) is True:
-                turno1 = False
-                tablero.imprimir()
-            else:
-                tablero.imprimir()
+        # Realizo la jugada, si es una jugada permitida termino el turno e imprimo el tablero
+        if j1.jugar_pieza(tablero, j1.color, negro_inicial, negro_final) is True:
+            turno1 = False
+            # Cambio la variable controlando para que la funcion mover pieza no saque al rey del tablero, luego la vuelvo a dejar en False
+            tablero.controlando = True
+            if j1.verificar_jaque(j2, tablero) is True:
+                print("El rey blanco está en jaque")
+            tablero.controlando = False
+            tablero.verificar_promociones()
+            tablero.imprimir()
         else:
-            print("Jugador en jaque, mueva el rey")
-            if j1.jugar_pieza_en_jaque(tablero, j1.color, negro_inicial, negro_final) is True:
-                turno1 = False
-                tablero.imprimir()
-            else:
-                tablero.imprimir()
+            tablero.imprimir()
 
     while turno2 is True:
         print("JUGADOR BLANCO")
@@ -93,16 +92,15 @@ while tablero.juego != 'termiando':
         else:
             print("Valor fuera de tablero")
             continue
-        if tablero.verificar_jaque(j2.color) is False:
-            if j2.jugar_pieza(tablero, j2.color, blanco_inicial, blanco_final) is True:
-                turno2 = False
-                tablero.imprimir()
-            else:
-                tablero.imprimir()
+        # Realizo la jugada, si es una jugada permitida termino el turno e imprimo el tablero
+        if j2.jugar_pieza(tablero, j2.color, blanco_inicial, blanco_final) is True:
+            turno2 = False
+            # Cambio la variable controlando para que la funcion mover pieza no saque al rey del tablero, luego la vuelvo a dejar en False
+            tablero.controlando = True
+            if j2.verificar_jaque(j1, tablero) is True:
+                print("El rey negro está en jaque")
+            tablero.controlando = False
+            tablero.verificar_promociones()
+            tablero.imprimir()
         else:
-            print("Jugador en jaque, mueva el rey")
-            if j2.jugar_pieza_en_jaque(tablero, j2.color, blanco_inicial, blanco_final) is True:
-                turno2 = False
-                tablero.imprimir()
-            else:
-                tablero.imprimir()
+            tablero.imprimir()

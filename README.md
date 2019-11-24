@@ -7,7 +7,7 @@ Funcionalidades implementadas:
 
 <p>
 
-El programa cuenta con un archivo main donde se instancian los objetos tablero y jugador (blanco y negro). Luego se implementa la logica de los turnos y se llama a las funciones de verificacionde promociones y verificaciond e jaque. losd emas archivos se utilzian apra definir las clases y metodos  para piezas, jugador y tablero.
+El programa cuenta con un archivo main donde se instancian los objetos tablero y jugador (blanco y negro). Luego se implementa la logica de los turnos y se llama a las funciones de verificacionde promociones y verificaciond e jaque. los demas archivos se utilzian apra definir las clases y metodos  para piezas, jugador y tablero.
 
 Las piezas tienen definidas el color del jugador correspondiente, el estado de promocion (verdadero o falso) y un nombre utilziado para mostrar en el tablero.
 
@@ -19,10 +19,13 @@ En cada turnos se verifica si el jugador tiene piezas en la lista de piezas muer
 
 Esta implemendato utilziando clases para definir tablero, jugadores y piezas. La clase pieza contiene metodos y variables que son heredadas a cada pieza en especial, pero cada pieza cuenta con movimientos individuales que le corresponden
 
-La funciona para verificar jaque se implemento realizando un analisis en el tablero luegod e cada jugada para verificar si en la siguiente jugada el rey puede ser comido
+La funciona para verificar jaque se implemento realizando un analisis en el tablero luego de cada jugada para verificar si en la siguiente jugada el rey puede ser comido, dentro de la funcion se modifica la variable de control para que las piezas no se muevan durante el control
+
+La funcion jaque mate identifica el rey contrario al jugador que realizo la ultima jugada y controla que al hacer todos los movimientos posibles el rey siga en jaque.
+
 </p> 
 
 Funcionalidades no implementadas:
 
-Todavia faltan las funcionalidades para jaque mate
+Faltan limitaciones al introducir una pieza al tablero (por ejemplo no se puede introducir un peon delante del rey)
 

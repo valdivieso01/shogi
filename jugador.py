@@ -1,4 +1,5 @@
 from piezas import *
+from tablero import *
 
 
 class Jugador(object):
@@ -52,30 +53,60 @@ class Jugador(object):
             return False
 
     def verificar_jaque(self, ultimo_jugador, tablero):
-        jaque = False
         pieza_rey = (0, 0)
+        # verifico color de jugadores
         if ultimo_jugador.color == 'negro':
             color_ultimo_jugador = 'negro'
             color_siguiente_jugador = 'blanco'
         else:
             color_ultimo_jugador = 'blanco'
             color_siguiente_jugador = 'negro'
+        # encuentro la ubicacion del rey del jugador contrario
         for i in range(9):
             for j in range(9):
                 if tablero.tab[i][j].__class__ == Rey:
                     if tablero.tab[i][j].color == color_siguiente_jugador:
                         pieza_rey = (i, j)
+        # verifico que en cada posible jugada el rey pueda ser comido
         for i in tablero.tab:
             for j in i:
                 if j and j.color == color_ultimo_jugador:
                     for k in range(9):
                         for l in range(9):
                             pieza_cualquiera = (k, l)
-                            if tablero.tab[k][l]:
-                                if tablero.tab[k][l].__class__ is not Rey:
-                                    if self.jugar_pieza(tablero, j.color, pieza_cualquiera, pieza_rey) is True:
-                                        jaque = True
-                                        return jaque
+                            if tablero.tab[k][l] is not None:
+                                if tablero.tab[k][l].__class__ != Rey:
+                                    if self.jugar_pieza(tablero, color_ultimo_jugador, pieza_cualquiera, pieza_rey) is True:
+                                        return True
                                     else:
                                         continue
-        return jaque
+        return False
+
+    def verificar_jaque_mate(self, ultimo_jugador, tablero):
+        pieza_rey = (0, 0)
+        # verifico color de jugadores
+        if ultimo_jugador.color == 'negro':
+            color_ultimo_jugador = 'negro'
+            color_siguiente_jugador = 'blanco'
+        else:
+            color_ultimo_jugador = 'blanco'
+            color_siguiente_jugador = 'negro'
+        # encuentro la ubicacion del rey del jugador contrario
+        for i in range(9):
+            for j in range(9):
+                if tablero.tab[i][j].__class__ == Rey:
+                    if tablero.tab[i][j].color == color_siguiente_jugador:
+                        pieza_rey = (i, j)
+                        continue
+        # verifico si moviendo el rey es posible no ser comido
+        for i in range(-1, 2):
+            for j in range(-1, 2):
+                movimiento_rey = (pieza_rey[0]+i, pieza_rey[1]+j)
+                # verifico si al mover el rey, luego queda en jaque, despues vuelvo a poner el rey en su lugar
+                if self.jugar_pieza(tablero, color_siguiente_jugador, pieza_rey, movimiento_rey) is True:
+                    if self.verificar_jaque(ultimo_jugador, tablero) is False:
+                        self.jugar_pieza(tablero, color_siguiente_jugador, movimiento_rey, pieza_rey)
+                        return False
+                    else:
+                        self.jugar_pieza(tablero, color_siguiente_jugador, movimiento_rey, pieza_rey)
+        return True

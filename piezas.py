@@ -1,7 +1,5 @@
 class Pieza(object):
 
-    controlando = False
-
     def __init__(self, color, nombre):
         
         self.color = color
@@ -22,13 +20,15 @@ class Pieza(object):
                 jugador_inactivo = 'blanco'
             else:
                 jugador_inactivo = 'negro'
-            if tablero.tab[posicion_final[0]][posicion_final[1]].color == jugador_inactivo and self.controlando is False:
+            if tablero.tab[posicion_final[0]][posicion_final[1]].color == jugador_inactivo:
+                # Si el modo control es verdadero no se mueve la pieza en el tablero
+                if not tablero.modo_control_tablero:
                     tablero.tab[posicion_final[0]][posicion_final[1]].color = jugador_activo
                     tablero.piezas_muertas.append(tablero.tab[posicion_final[0]][posicion_final[1]])
                     tablero.tab[posicion_final[0]][posicion_final[1]] = tablero.tab[posicion_inicial[0]][posicion_inicial[1]]
                     tablero.tab[posicion_inicial[0]][posicion_inicial[1]] = None
                     print("Pieza comida")
-                    return True
+                return True
             else:
                 # Cancelar jugada porque no puedo comer mi propia pieza
                 #print("Jugada no permitida")
@@ -207,10 +207,14 @@ class Rey(Pieza):
     def mover_rey(self, tablero, posicion_inicial, posicion_final, color_de_jugador):
         # El rey no tiene promocion por lo que solo tiene un tipo de movimeinto y es indiferente del color
         # El rey puede mover un lugar hacia cualquier lado
-        if posicion_final[0] == posicion_inicial[0] + 1 and posicion_final[1] == posicion_inicial[1] or posicion_final[0] == posicion_inicial[0] + 1 and posicion_final[1] == posicion_inicial[1] + 1 \
-        or posicion_final[0] == posicion_inicial[0] + 1 and posicion_final[1] == posicion_inicial[1] - 1 or posicion_final[0] == posicion_inicial[0] and posicion_final[1] == posicion_inicial[1] - 1 \
-        or posicion_final[0] == posicion_inicial[0] and posicion_final[1] == posicion_inicial[1] + 1 or posicion_final[0] == posicion_inicial[0] - 1 and posicion_final[1] == posicion_inicial[1] \
-        or posicion_final[0] == posicion_inicial[0] - 1 and posicion_final[1] == posicion_inicial[1] + 1 or posicion_final[0] == posicion_inicial[0] - 1 and posicion_final[1] == posicion_inicial[1] - 1:
+        if posicion_final[0] == posicion_inicial[0] + 1 and posicion_final[1] == posicion_inicial[1] \
+        or posicion_final[0] == posicion_inicial[0] + 1 and posicion_final[1] == posicion_inicial[1] + 1 \
+        or posicion_final[0] == posicion_inicial[0] + 1 and posicion_final[1] == posicion_inicial[1] - 1 \
+        or posicion_final[0] == posicion_inicial[0] and posicion_final[1] == posicion_inicial[1] - 1 \
+        or posicion_final[0] == posicion_inicial[0] and posicion_final[1] == posicion_inicial[1] + 1 \
+        or posicion_final[0] == posicion_inicial[0] - 1 and posicion_final[1] == posicion_inicial[1] \
+        or posicion_final[0] == posicion_inicial[0] - 1 and posicion_final[1] == posicion_inicial[1] + 1 \
+        or posicion_final[0] == posicion_inicial[0] - 1 and posicion_final[1] == posicion_inicial[1] - 1:
             # Si el destino está libre, movemos el rey
             return self.mover_pieza(color_de_jugador, tablero, posicion_inicial, posicion_final)
         else:
@@ -298,7 +302,7 @@ class Caballo(Pieza):
                     #print("Jugada no permitida")
                     return False
         else:
-            mover_pieza_promocionada(color_de_jugador, tablero, posicion_inicial, posicion_final)
+            self.mover_pieza_promocionada(color_de_jugador, tablero, posicion_inicial, posicion_final)
 
 
 class GeneralOro(Pieza):
@@ -455,7 +459,7 @@ class Alfil(Pieza):
                             return False
 
         else:
-            return mself.mover_pieza_promocionada(color_de_jugador, tablero, posicion_inicial, posicion_final)
+            return self.mover_pieza_promocionada(color_de_jugador, tablero, posicion_inicial, posicion_final)
 
 
 class Torre(Pieza):
@@ -564,7 +568,6 @@ class Peon(Pieza):
                     #print("Jugada no permitida")
                     return False
         else:
-
             return self.mover_pieza_promocionada(color_de_jugador, tablero, posicion_inicial, posicion_final)
 
 

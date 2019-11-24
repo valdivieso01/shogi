@@ -7,13 +7,14 @@ class Tablero(object):
 
     def __init__(self):
 
+        self.modo_control_tablero = False
         self.juego = 'iniciado'
 
         self.columna = ['0', '1', '2', '3', '4', '5', '6', '7', '8']
         self.fila = ['0', '1', '2', '3', '4', '5', '6', '7', '8']
 
         # Defino una lista con las piezas y le paso los parametros: estadod e la pieza, si se encuentra promocionada,
-        # color del jugador asignado, letra que lo identifica en el tablero y en el caso del rey un bolleano que indica si esta en jaque
+        # Color del jugador asignado, letra que lo identifica en el tablero y en el caso del rey un bolleano que indica si esta en jaque
         self.t = [
             [Lancero(False, 'negro', 'L'), Caballo(False, 'negro', 'N'), GeneralPlata(False, 'negro', 'S'),
              GeneralOro('negro', 'G'), Rey('negro', 'K', False), GeneralOro('negro', 'G'),
@@ -132,11 +133,15 @@ class Tablero(object):
                 for i in self.piezas_muertas:
                     if i.color == color:
                         if i.nombre == pieza_muerta:
-                            posicion_donde_incorporar = input(
-                                "Ingrese fila y columna de la posicion donde desea reincorporar (Separados por un espacio):")
+                            posicion_donde_incorporar = input("Ingrese fila y columna de la posicion donde desea reincorporar (Separados por un espacio):")
                             fila, columna = (int(item) for item in posicion_donde_incorporar.split())
-                            self.tab[fila][columna] = i
-                            self.piezas_muertas.remove(i)
+                            if self.tab[fila][columna] is None:
+                                self.tab[fila][columna] = i
+                                self.piezas_muertas.remove(i)
+                                return True
+                            else:
+                                print("La posicion está ocupada")
+                                return False
                     else:
                         return False
             else:

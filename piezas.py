@@ -12,7 +12,6 @@ class Pieza(object):
         if tablero.tab[posicion_final[0]][posicion_final[1]] is None:
             tablero.tab[posicion_final[0]][posicion_final[1]] = tablero.tab[posicion_inicial[0]][posicion_inicial[1]]
             tablero.tab[posicion_inicial[0]][posicion_inicial[1]] = None
-            print("Pieza movida")
             return True
         else:
             # Si el destino está ocupado por una pieza del otro jugador se debe poner la pieza en estado muerta y cambiar el color, sino se cancela la jugada
@@ -27,11 +26,9 @@ class Pieza(object):
                     tablero.piezas_muertas.append(tablero.tab[posicion_final[0]][posicion_final[1]])
                     tablero.tab[posicion_final[0]][posicion_final[1]] = tablero.tab[posicion_inicial[0]][posicion_inicial[1]]
                     tablero.tab[posicion_inicial[0]][posicion_inicial[1]] = None
-                    print("Pieza comida")
                 return True
             else:
                 # Cancelar jugada porque no puedo comer mi propia pieza
-                #print("Jugada no permitida")
                 return False
 
     def mover_pieza_promocionada(self, color, tablero, posicion_inicial, posicion_final):
@@ -40,11 +37,11 @@ class Pieza(object):
         or tablero.tab[posicion_inicial[0]][posicion_inicial[1]].__class__ == GeneralPlata \
         or tablero.tab[posicion_inicial[0]][posicion_inicial[1]].__class__ == Caballo \
         or tablero.tab[posicion_inicial[0]][posicion_inicial[1]].__class__ == Lancero:
-            self.mover_como_general_oro(color, tablero, posicion_inicial, posicion_final)
+            return self.mover_como_general_oro(color, tablero, posicion_inicial, posicion_final)
         if tablero.tab[posicion_inicial[0]][posicion_inicial[1]].__class__ == Alfil:
-            self.mover_como_alfil_coronado(color, tablero, posicion_inicial, posicion_final)
+            return self.mover_como_alfil_coronado(color, tablero, posicion_inicial, posicion_final)
         if tablero.tab[posicion_inicial[0]][posicion_inicial[1]].__class__ == Torre:
-            self.mover_como_torre_coronada(color, tablero, posicion_inicial, posicion_final)
+            return self.mover_como_torre_coronada(color, tablero, posicion_inicial, posicion_final)
 
     def mover_como_general_oro(self, color, tablero, posicion_inicial, posicion_final):
         if tablero.tab[posicion_inicial[0]][posicion_inicial[1]].color == 'negro':
@@ -88,7 +85,6 @@ class Pieza(object):
                     if tablero.tab[posicion_inicial[0] + i][posicion_inicial[1] + i] is None:
                         continue
                     else:
-                        #print("Hay una pieza en el camino")
                         return False
 
         elif posicion_final[0] < posicion_inicial[0] and posicion_final[1] < posicion_inicial[1]:
@@ -101,7 +97,6 @@ class Pieza(object):
                     if tablero.tab[posicion_inicial[0] - i][posicion_inicial[1] - i] is None:
                         continue
                     else:
-                        #print("Hay una pieza en el camino")
                         return False
 
         elif posicion_final[0] < posicion_inicial[0] and posicion_final[1] > posicion_inicial[1]:
@@ -114,7 +109,6 @@ class Pieza(object):
                     if tablero.tab[posicion_inicial[0] - i][posicion_inicial[1] + i] is None:
                         continue
                     else:
-                        #print("Hay una pieza en el camino")
                         return False
 
         elif posicion_final[0] > posicion_inicial[0] and posicion_final[1] < posicion_inicial[1]:
@@ -127,10 +121,8 @@ class Pieza(object):
                     if tablero.tab[posicion_inicial[0] + i][posicion_inicial[1] - i] is None:
                         continue
                     else:
-                        #print("Hay una pieza en el camino")
                         return False
         else:
-            #print("Jugada no permitida")
             return False
 
     def mover_como_torre_coronada(self, color, tablero, posicion_inicial, posicion_final):
@@ -149,7 +141,6 @@ class Pieza(object):
                     if tablero.tab[posicion_inicial[0] + i][posicion_inicial[1] + i] is None:
                         continue
                     else:
-                        #print("Hay una pieza en el camino")
                         return False
         elif posicion_final[0] < posicion_inicial[0] and posicion_final[1] == posicion_inicial[1]:
             while i < 10:
@@ -161,7 +152,6 @@ class Pieza(object):
                     if tablero.tab[posicion_inicial[0] - i][posicion_inicial[1] - i] is None:
                         continue
                     else:
-                        #print("Hay una pieza en el camino")
                         return False
         elif posicion_final[0] < posicion_inicial[0] and posicion_final[1] == posicion_inicial[1]:
             while i < 10:
@@ -173,7 +163,6 @@ class Pieza(object):
                     if tablero.tab[posicion_inicial[0] - i][posicion_inicial[1] + i] is None:
                         continue
                     else:
-                        #print("Hay una pieza en el camino")
                         return False
         elif posicion_final[0] > posicion_inicial[0] and posicion_final[1] == posicion_inicial[1]:
             while i < 10:
@@ -185,10 +174,8 @@ class Pieza(object):
                     if tablero.tab[posicion_inicial[0] + i][posicion_inicial[1] - i] is None:
                         continue
                     else:
-                        #print("Hay una pieza en el camino")
                         return False
         else:
-            #print("Jugada no permitida")
             return False
 
 
@@ -218,7 +205,6 @@ class Rey(Pieza):
             # Si el destino está libre, movemos el rey
             return self.mover_pieza(color_de_jugador, tablero, posicion_inicial, posicion_final)
         else:
-            #print("Jugada no permitida")
             return False
 
 
@@ -246,10 +232,8 @@ class Lancero(Pieza):
                             if tablero.tab[posicion_inicial[0] + i][posicion_inicial[1]] is None:
                                 continue
                             else:
-                                #print("Hay una pieza en el camino")
                                 return False
                 else:
-                    #print("Jugada no permitida")
                     return False
             else:
                 if posicion_final[1] == posicion_inicial[1]:
@@ -263,10 +247,8 @@ class Lancero(Pieza):
                             if tablero.tab[posicion_inicial[0] - i][posicion_inicial[1]] is None:
                                 continue
                             else:
-                                #print("Hay una pieza en el camino")
                                 return False
                 else:
-                    #print("Jugada no permitida")
                     return False
 
 
@@ -290,7 +272,6 @@ class Caballo(Pieza):
                     # Si el destino de la ficha esta libre, ponemos el caballo en ese lugar
                     return self.mover_pieza(color_de_jugador, tablero, posicion_inicial, posicion_final)
                 else:
-                    #print("Jugada no permitida")
                     return False
             else:
                 # Si es una pieza del jugador blanco solo puede mover 2 lugares hacia arriba y uno a la derecha o izquierda
@@ -299,7 +280,6 @@ class Caballo(Pieza):
                     # Si el destino de la ficha esta libre, ponemos el caballo en ese lugar
                     return self.mover_pieza(color_de_jugador, tablero, posicion_inicial, posicion_final)
                 else:
-                    #print("Jugada no permitida")
                     return False
         else:
             self.mover_pieza_promocionada(color_de_jugador, tablero, posicion_inicial, posicion_final)
@@ -327,7 +307,6 @@ class GeneralOro(Pieza):
                 # Si el destino de la ficha esta libre, ponemos el general de oro en ese lugar
                 return self.mover_pieza(color_de_jugador, tablero, posicion_inicial, posicion_final)
             else:
-                #print("Jugada no permitida")
                 return False
         else:
             # Si es una pieza del jugador blanco puede mover hacia arriba, los costados y solo derecho hacia abajo
@@ -340,7 +319,6 @@ class GeneralOro(Pieza):
                 # Si el destino de la ficha esta libre, ponemos el general de oro en ese lugar
                 return self.mover_pieza(color_de_jugador, tablero, posicion_inicial, posicion_final)
             else:
-                #print("Jugada no permitida")
                 return False
 
 
@@ -367,7 +345,6 @@ class GeneralPlata(Pieza):
                     # Si el destino de la ficha esta libre, ponemos el general en ese lugar
                     return self.mover_pieza(color_de_jugador, tablero, posicion_inicial, posicion_final)
                 else:
-                    #print("Jugada no permitida")
                     return False
             else:
                 # Si es una pieza del jugador blanco solo puede mover hacia arriba
@@ -379,7 +356,6 @@ class GeneralPlata(Pieza):
                     # Si el destino de la ficha esta libre, ponemos el gereral de plata en ese lugar
                     return self.mover_pieza(color_de_jugador, tablero, posicion_inicial, posicion_inicial)
                 else:
-                    #print("Jugada no permitida")
                     return False
         else:
             return self.mover_pieza_promocionada(color_de_jugador, tablero, posicion_inicial, posicion_final)
@@ -419,7 +395,6 @@ class Alfil(Pieza):
                         if tablero.tab[posicion_inicial[0] + i][posicion_inicial[1] + i] is None:
                             continue
                         else:
-                            #print("Hay una pieza en el camino")
                             return False
             if var == 2:
                 while i < 10:
@@ -431,7 +406,6 @@ class Alfil(Pieza):
                         if tablero.tab[posicion_inicial[0] - i][posicion_inicial[1] - i] is None:
                             continue
                         else:
-                            #print("Hay una pieza en el camino")
                             return False
             if var == 3:
                 while i < 10:
@@ -443,7 +417,6 @@ class Alfil(Pieza):
                         if tablero.tab[posicion_inicial[0] - i][posicion_inicial[1] + i] is None:
                             continue
                         else:
-                            #print("Hay una pieza en el camino")
                             return False
             if var == 4:
                 while i < 10:
@@ -455,7 +428,6 @@ class Alfil(Pieza):
                         if tablero.tab[posicion_inicial[0] + i][posicion_inicial[1] - i] is None:
                             continue
                         else:
-                            #print("Hay una pieza en el camino")
                             return False
 
         else:
@@ -496,7 +468,6 @@ class Torre(Pieza):
                         if tablero.tab[posicion_inicial[0] + i][posicion_inicial[1]] is None:
                             continue
                         else:
-                            #print("Hay una pieza en el camino")
                             return False
             if var == 2:
                 while i < 10:
@@ -508,7 +479,6 @@ class Torre(Pieza):
                         if tablero.tab[posicion_inicial[0] - i][posicion_inicial[1]] is None:
                             continue
                         else:
-                            #print("Hay una pieza en el camino")
                             return False
             if var == 3:
                 while i < 10:
@@ -520,7 +490,6 @@ class Torre(Pieza):
                         if tablero.tab[posicion_inicial[0]][posicion_inicial[1] + i] is None:
                             continue
                         else:
-                            #print("Hay una pieza en el camino")
                             return False
             if var == 4:
                 while i < 10:
@@ -532,7 +501,6 @@ class Torre(Pieza):
                         if tablero.tab[posicion_inicial[0]][posicion_inicial[1] - i] is None:
                             continue
                         else:
-                            #print("Hay una pieza en el camino")
                             return False
         else:
             return self.mover_pieza_promocionada(color_de_jugador, tablero, posicion_inicial, posicion_final)
@@ -557,7 +525,6 @@ class Peon(Pieza):
                     # Si el destino de la ficha esta libre, ponemos el peon en ese lugar
                     return self.mover_pieza(color_de_jugador, tablero, posicion_inicial, posicion_final)
                 else:
-                    #print("Jugada no permitida")
                     return False
             else:
                 # Si es una pieza del jugador blanco solo puede mover hacia arriba
@@ -565,7 +532,6 @@ class Peon(Pieza):
                     # Si el destino de la ficha esta libre, ponemos el peon en ese lugar
                     return self.mover_pieza(color_de_jugador, tablero, posicion_inicial, posicion_final)
                 else:
-                    #print("Jugada no permitida")
                     return False
         else:
             return self.mover_pieza_promocionada(color_de_jugador, tablero, posicion_inicial, posicion_final)

@@ -121,29 +121,20 @@ class Tablero(object):
             if p > 0:
                 return True
             else:
-                print('No hay piezas para reincorporar')
                 return False
 
-    def incorporar_piezas(self, color, pieza_muerta):
-        global i
-        print("Piezas capturadas")
+    def incorporar_piezas(self, color, pieza_muerta, posicion_donde_incorporar):
         # Listo las piezas que el jugador a comido al adversario
         for i in self.piezas_muertas:
             if i.nombre == pieza_muerta:
                 for i in self.piezas_muertas:
                     if i.color == color:
                         if i.nombre == pieza_muerta:
-                            posicion_donde_incorporar = input("Ingrese fila y columna de la posicion donde desea reincorporar (Separados por un espacio):")
                             fila, columna = (int(item) for item in posicion_donde_incorporar.split())
                             if self.tab[fila][columna] is None:
                                 self.tab[fila][columna] = i
                                 self.piezas_muertas.remove(i)
                                 return True
                             else:
-                                print("La posicion está ocupada")
                                 return False
-                    else:
-                        return False
-            else:
-                print("No existe la pieza elegida")
-                return False
+        return False

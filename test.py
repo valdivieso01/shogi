@@ -139,6 +139,22 @@ class TestBasicos(unittest.TestCase):
         negro_final = (int(3),int(5))
         self.assertEqual(False, self.j1.jugar_pieza(self.tablero, self.j1.color, negro_inicial, negro_final))
 
+    def test_jaque_mate(self):
+        negro_inicial = (int(2), int(4))
+        negro_final = (int(3), int(4))
+        self.assertEqual(True, self.j1.jugar_pieza(self.tablero, self.j1.color, negro_inicial, negro_final))
+        negro_inicial = (int(3), int(4))
+        negro_final = (int(4), int(4))
+        self.assertEqual(True, self.j1.jugar_pieza(self.tablero, self.j1.color, negro_inicial, negro_final))
+        negro_inicial = (int(4), int(4))
+        negro_final = (int(5), int(4))
+        self.assertEqual(True, self.j1.jugar_pieza(self.tablero, self.j1.color, negro_inicial, negro_final))
+        negro_inicial = (int(5), int(4))
+        negro_final = (int(6), int(4))
+        self.assertEqual(True, self.j1.jugar_pieza(self.tablero, self.j1.color, negro_inicial, negro_final))
+        negro_inicial = (int(6), int(4))
+        negro_final = (int(7), int(4))
+        self.assertEqual(True, self.j1.jugar_pieza(self.tablero, self.j1.color, negro_inicial, negro_final))
 
 if __name__ == "__main__":
     unittest.main()

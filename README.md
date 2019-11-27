@@ -27,5 +27,5 @@ La funcion jaque mate identifica el rey contrario al jugador que realizo la ulti
 
 Funcionalidades no implementadas:
 
-Faltan limitaciones al introducir una pieza al tablero (por ejemplo no se puede introducir un peon delante del rey)
+Solo falta corregir un error al reintroducir un peon al tablero, la verificacion revisa que el rey no queda en jaque mate pero para eso la pieza ya debe estar en el tablero
 

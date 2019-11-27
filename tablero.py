@@ -123,32 +123,66 @@ class Tablero(object):
             else:
                 return False
 
-    def incorporar_piezas(self, color, pieza_muerta, posicion_donde_incorporar):
+    def reintroducir_pieza(self, jugador, pieza_muerta, posicion_donde_incorporar, tablero):
         # Listo las piezas que el jugador a comido al adversario
+        fila, columna = (int(item) for item in posicion_donde_incorporar.split())
         for i in self.piezas_muertas:
             # Verifico qie exista la pieza del color indicado
-            if i.nombre == pieza_muerta and i.color == color:
-                # El peon no puede ingresarse delante del rey, verifico que no suceda esto mirando en el tablero la pieza que está delante
-                if i.nombre == 'P' and  color == 'negro':
-                    if self.tab[posicion_donde_incorporar[0]+1][posicion_donde_incorporar[1]].__class__ != Rey:
-                        return self.incorporar(i, posicion_donde_incorporar)
-                    else:
-                        return False
-                elif i.nombre == 'P' and color == 'blanco':
-                    if self.tab[posicion_donde_incorporar[0]-1][posicion_donde_incorporar[1]].__class__ != Rey:
-                        return self.incorporar(i, posicion_donde_incorporar)
-                    else:
-                        return False
+            if i.nombre == pieza_muerta and i.color == jugador.color:
+                # verifico si es un peon
+                if i.nombre == 'P':
+                    if jugador.color == 'negro':
+                        # El peon nos e puede ingresar en la ultima fila
+                        if fila != 8:
+                            # El peon no puede ingresar delante del rey si lo pone en jaque mate o si hay otro peon de ese color
+                            if self.tab[fila - 1][columna].__class__ == Rey and jugador.verificar_jaque_mate(jugador, tablero) is False:
+                                # El peon no se puede ingresar si en la misma fila hay otro peon del mismo color
+                                for j in range(8):
+                                    if self.tab[fila+j][columna].__class__ == Peon and self.tab[fila + j][columna].color == 'negro':
+                                        return False
+                                else:
+                                    return self.reintroducir(i, fila, columna)
+                            else:
+                                return False
+                        else:
+                            return False
+                    elif jugador.color == 'blanco':
+                        # El peon no se puede ingresar en la ultima fila
+                        if fila != 0:
+                            # El peon no se puede ingresar delante del rey si lo pone en jaque mate o si hay otro peon de ese color
+                            if self.tab[fila + 1][columna].__class__ != Rey and jugador.verificar_jaque_mate(jugador, tablero) is False:
+                                # El peon no se puede ingresar si en la misma fila hay otro peon del mismo color
+                                for j in range(8):
+                                    if self.tab[fila + j][columna].__class__ == Peon and self.tab[fila + j][columna].color == 'blanco':
+                                        return False
+                                else:
+                                    return self.reintroducir(i, fila, columna)
+                            else:
+                                return False
+                        else:
+                            return False
+                if i.nombre == 'L' or i.nombre == 'N':
+                    if jugador.color == 'negro':
+                        # El lancero o caballo no se puede ingresar en la ultima fila
+                        if fila != 8:
+                            return self.reintroducir(i, fila, columna)
+                        else:
+                            return False
+                    elif jugador.color == 'blanco':
+                        # El lancero o caballo no se puede ingresar en la ultima fila
+                        if fila != 0:
+                            return self.reintroducir(i, fila, columna)
+                        else:
+                            return False
                 # Si es cualquier otra pieza, no tiene restricciones
                 else:
-                    return self.incorporar(i, posicion_donde_incorporar)
+                    return self.reintroducir(i, fila, columna)
         return False
 
-    def incorporar(self, i, posicion_donde_incorporar):
-        fila, columna = (int(item) for item in posicion_donde_incorporar.split())
+    def reintroducir(self, pieza, fila, columna):
         if self.tab[fila][columna] is None:
-            self.tab[fila][columna] = i
-            self.piezas_muertas.remove(i)
+            self.tab[fila][columna] = pieza
+            self.piezas_muertas.remove(pieza)
             return True
         else:
             return False

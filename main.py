@@ -23,11 +23,14 @@ while tablero.juego != 'terminado':
             if entrada == 'S':
                 # Pongo un bucle ya que si el usuario se equivoca al ingresar puede volver a elegir hasta que es una opcion correcta
                 while pieza_incorporada is False:
-                    pieza_muerta = input("¿que pieza desea incorporar?")
+                    pieza_muerta = input("¿que pieza desea incorporar? / Salir")
+                    # Pongo esta condicion para poder salir si no hay reincorporacion posible
+                    if posicion_donde_incorporar == 'Salir':
+                        pieza_incorporada == True
                     posicion_donde_incorporar = input("Ingrese fila y columna de la posicion donde desea reincorporar (Separados por un espacio):")
                     x, y = (int(item) for item in posicion_donde_incorporar.split())
                     if j1.validar_posiciones(x, y) is True:
-                        if tablero.incorporar_piezas(j1.color, pieza_muerta, posicion_donde_incorporar):
+                        if tablero.reintroducir_pieza(j1, pieza_muerta, posicion_donde_incorporar, tablero):
                             print("Pieza incorporada")
                             pieza_incorporada = True
                         else:
@@ -95,11 +98,14 @@ while tablero.juego != 'terminado':
             if entrada == 'S':
                 # Pongo un bucle ya que si el usuario se equivoca al ingresar puede volver a elegir hasta que es una opcion correcta
                 while pieza_incorporada is False:
-                    pieza_muerta = input("¿que pieza desea incorporar?")
+                    pieza_muerta = input("¿que pieza desea incorporar? / Salir")
                     posicion_donde_incorporar = input("Ingrese fila y columna de la posicion donde desea reincorporar (Separados por un espacio):")
+                    # Pongo esta condicion para poder salir si no hay reincorporacion posible
+                    if posicion_donde_incorporar == 'Salir':
+                        pieza_incorporada == True
                     x, y = (int(item) for item in posicion_donde_incorporar.split())
                     if j2.validar_posiciones(x, y) is True:
-                        if tablero.incorporar_piezas(j2.color, pieza_muerta, posicion_donde_incorporar):
+                        if tablero.reintroducir_pieza(j2, pieza_muerta, posicion_donde_incorporar, tablero):
                             print("Pieza incorporada")
                             pieza_incorporada = True
                         else:

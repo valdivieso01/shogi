@@ -222,7 +222,7 @@ class Lancero(Pieza):
         if not tablero.tab[posicion_inicial[0]][posicion_inicial[1]].promocion:
             if tablero.tab[posicion_inicial[0]][posicion_inicial[1]].color == 'negro':
                 if posicion_final[1] == posicion_inicial[1]:
-                    # Si es una pieza del jugador negro solo puede mover hacia abajo ahsta encontrar el final o otra pieza
+                    # Si es una pieza del jugador negro solo puede mover hacia abajo hasta encontrar el final o otra pieza
                     while i < 10:
                         i += 1
                         if posicion_final[0] == posicion_inicial[0] + i and posicion_final[1] == posicion_inicial[1]:

@@ -21,6 +21,7 @@ while tablero.juego != 'terminado':
         if tablero.mostrar_piezas_muertas(j1.color):
             entrada = input("Desea incorporar pieza? S/N")
             if entrada == 'S':
+                # Pongo un bucle ya que si el usuario se equivoca al ingresar puede volver a elegir hasta que es una opcion correcta
                 while pieza_incorporada is False:
                     pieza_muerta = input("¿que pieza desea incorporar?")
                     posicion_donde_incorporar = input("Ingrese fila y columna de la posicion donde desea reincorporar (Separados por un espacio):")
@@ -33,14 +34,13 @@ while tablero.juego != 'terminado':
                             print("No es posible incorporar")
                     else:
                         print("Valores incorrectos")
-                tablero.verificar_promociones()
                 tablero.imprimir()
                 if j1.verificar_jaque(j1, tablero) is True:
                     print("El rey negro está en jaque")
                     if j1.verificar_jaque_mate(j1, tablero) is True:
                         print("jaque mate al rey negro")
                         tablero.juego = 'terminado'
-                break  # Al incorporar pierdo turno
+                break  # Al incorporar pierdo turno y no verifico promociones ya que las piezas tienen que ingresarse sin promocion por regla
         else:
             print("Ninguna")
         ###### TERMINA REINCORPORACION Y EMPIEZA JUGADA ######
@@ -93,6 +93,7 @@ while tablero.juego != 'terminado':
         if tablero.mostrar_piezas_muertas(j2.color):
             entrada = input("Desea incorporar pieza? S/N")
             if entrada == 'S':
+                # Pongo un bucle ya que si el usuario se equivoca al ingresar puede volver a elegir hasta que es una opcion correcta
                 while pieza_incorporada is False:
                     pieza_muerta = input("¿que pieza desea incorporar?")
                     posicion_donde_incorporar = input("Ingrese fila y columna de la posicion donde desea reincorporar (Separados por un espacio):")
@@ -106,7 +107,6 @@ while tablero.juego != 'terminado':
                             continue
                     else:
                         print("Valores incorrectos")
-                tablero.verificar_promociones()
                 tablero.imprimir()
                 if j2.verificar_jaque(j2, tablero) is True:
                     print("El rey negro está en jaque")
@@ -114,7 +114,7 @@ while tablero.juego != 'terminado':
                         print("jaque mate al rey negro")
                         tablero.juego = 'terminado'
                         break
-                break  # Al incorporar pierdo turno
+                break  # Al incorporar pierdo turno y no verifico promociones ya que las piezas tienen que ingresarse sin promocion por regla
         else:
             print("Ninguna")
 

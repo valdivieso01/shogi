@@ -126,15 +126,29 @@ class Tablero(object):
     def incorporar_piezas(self, color, pieza_muerta, posicion_donde_incorporar):
         # Listo las piezas que el jugador a comido al adversario
         for i in self.piezas_muertas:
-            if i.nombre == pieza_muerta:
-                for i in self.piezas_muertas:
-                    if i.color == color:
-                        if i.nombre == pieza_muerta:
-                            fila, columna = (int(item) for item in posicion_donde_incorporar.split())
-                            if self.tab[fila][columna] is None:
-                                self.tab[fila][columna] = i
-                                self.piezas_muertas.remove(i)
-                                return True
-                            else:
-                                return False
+            # Verifico qie exista la pieza del color indicado
+            if i.nombre == pieza_muerta and i.color == color:
+                # El peon no puede ingresarse delante del rey, verifico que no suceda esto mirando en el tablero la pieza que está delante
+                if i.nombre == 'P' and  color == 'negro':
+                    if self.tab[posicion_donde_incorporar[0]+1][posicion_donde_incorporar[1]].__class__ != Rey:
+                        return self.incorporar(i, posicion_donde_incorporar)
+                    else:
+                        return False
+                elif i.nombre == 'P' and color == 'blanco':
+                    if self.tab[posicion_donde_incorporar[0]-1][posicion_donde_incorporar[1]].__class__ != Rey:
+                        return self.incorporar(i, posicion_donde_incorporar)
+                    else:
+                        return False
+                # Si es cualquier otra pieza, no tiene restricciones
+                else:
+                    return self.incorporar(i, posicion_donde_incorporar)
         return False
+
+    def incorporar(self, i, posicion_donde_incorporar):
+        fila, columna = (int(item) for item in posicion_donde_incorporar.split())
+        if self.tab[fila][columna] is None:
+            self.tab[fila][columna] = i
+            self.piezas_muertas.remove(i)
+            return True
+        else:
+            return False

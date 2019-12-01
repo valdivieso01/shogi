@@ -132,32 +132,42 @@ class Tablero(object):
                 # verifico si es un peon
                 if i.nombre == 'P':
                     if jugador.color == 'negro':
-                        # El peon nos e puede ingresar en la ultima fila
+                        # El peon no se puede ingresar en la ultima fila
                         if fila != 8:
+                            # El peon no se puede ingresar si en la misma fila hay otro peon del mismo color
+                            for j in range(8):
+                                if self.tab[fila + j][columna].__class__ == Peon and self.tab[fila + j][columna].color == 'negro':
+                                    return False
+                            # Ingreso la pieza para verificar en el paso siguiente si hay jaque
+                            self.reintroducir(i, fila, columna)
                             # El peon no puede ingresar delante del rey si lo pone en jaque mate o si hay otro peon de ese color
                             if self.tab[fila - 1][columna].__class__ == Rey and jugador.verificar_jaque_mate(jugador, tablero) is False:
-                                # El peon no se puede ingresar si en la misma fila hay otro peon del mismo color
-                                for j in range(8):
-                                    if self.tab[fila+j][columna].__class__ == Peon and self.tab[fila + j][columna].color == 'negro':
-                                        return False
-                                else:
-                                    return self.reintroducir(i, fila, columna)
+                                # La pieza ya se encuentra colocada, solo devuelvo true
+                                return True
                             else:
+                                # Si el peon deja en jaque mate al rey lo retiro y lo vuelvo a poner en la lista de piezas muertas
+                                tablero.piezas_muertas.append(self.tab[fila][columna])
+                                self.tab[fila][columna] = None
                                 return False
                         else:
                             return False
                     elif jugador.color == 'blanco':
                         # El peon no se puede ingresar en la ultima fila
                         if fila != 0:
+                            for j in range(8):
+                                # El peon no se puede ingresar si en la misma fila hay otro peon del mismo color
+                                if self.tab[fila + j][columna].__class__ == Peon and self.tab[fila + j][columna].color == 'blanco':
+                                    return False
+                            # Ingreso la pieza para verificar en el paso siguiente si hay jaque
+                            self.reintroducir(i, fila, columna)
                             # El peon no se puede ingresar delante del rey si lo pone en jaque mate o si hay otro peon de ese color
                             if self.tab[fila + 1][columna].__class__ != Rey and jugador.verificar_jaque_mate(jugador, tablero) is False:
-                                # El peon no se puede ingresar si en la misma fila hay otro peon del mismo color
-                                for j in range(8):
-                                    if self.tab[fila + j][columna].__class__ == Peon and self.tab[fila + j][columna].color == 'blanco':
-                                        return False
-                                else:
-                                    return self.reintroducir(i, fila, columna)
+                                # La pieza ya se encuentra colocada, solo devuelvo true
+                                return True
                             else:
+                                # Si el peon deja en jaque mate al rey lo retiro y lo vuelvo a poner en la lista de piezas muertas
+                                tablero.piezas_muertas.append(self.tab[fila][columna])
+                                self.tab[fila][columna] = None
                                 return False
                         else:
                             return False

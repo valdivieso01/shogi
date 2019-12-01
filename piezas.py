@@ -188,9 +188,6 @@ class Rey(Pieza):
         self.color = color
         self.jaque = jaque
 
-    def __str__(self):
-        return self.nombre
-
     def mover_rey(self, tablero, posicion_inicial, posicion_final, color_de_jugador):
         # El rey no tiene promocion por lo que solo tiene un tipo de movimeinto y es indiferente del color
         # El rey puede mover un lugar hacia cualquier lado

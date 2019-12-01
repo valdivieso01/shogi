@@ -98,12 +98,12 @@ class Jugador(object):
                         # for k in range(9):
                         # for l in range(9):
                         pieza_cualquiera = (i, j)
-                        if tablero.tab[i][j].__class__ != Rey:
-                            if self.jugar_pieza(tablero, color_ultimo_jugador, pieza_cualquiera, pieza_rey) is True:
-                                tablero.modo_control_tablero = False
-                                return True
-                            else:
-                                continue
+                        # if tablero.tab[i][j].__class__ != Rey:
+                        if self.jugar_pieza(tablero, color_ultimo_jugador, pieza_cualquiera, pieza_rey) is True:
+                            tablero.modo_control_tablero = False
+                            return True
+                        else:
+                            continue
         tablero.modo_control_tablero = False
         return False
 

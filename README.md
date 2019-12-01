@@ -1,11 +1,12 @@
-# shogi
-Juego shogi desarrollado en python 
+# Juego shogi desarrollado en python 
 
-Librerias utilizadas: numpy
+# Librerias utilizadas: numpy
 
-Funcionalidades implementadas:
+# Funcionalidades implementadas:
 
 <p>
+
+El tablero se genera con las piezas de los jugadores donde en la aprte superior se encuentran las piezas negras y en la inferior las blancas, comienza a mover el jugador negro.
 
 El programa cuenta con un archivo main donde se instancian los objetos tablero y jugador (blanco y negro). Luego se implementa la logica de los turnos y se llama a las funciones de verificacionde promociones y verificaciond e jaque. los demas archivos se utilzian apra definir las clases y metodos  para piezas, jugador y tablero.
 
@@ -23,9 +24,6 @@ La funciona para verificar jaque se implemento realizando un analisis en el tabl
 
 La funcion jaque mate identifica el rey contrario al jugador que realizo la ultima jugada y controla que al hacer todos los movimientos posibles el rey siga en jaque.
 
+La reincorporacion de piezas se realiza segun las reglas definidas por el juego
 </p> 
-
-Funcionalidades no implementadas:
-
-Faltan limitaciones al introducir una pieza al tablero (por ejemplo no se puede introducir un peon delante del rey)
 

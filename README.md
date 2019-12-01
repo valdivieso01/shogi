@@ -27,7 +27,3 @@ La funcion jaque mate identifica el rey contrario al jugador que realizo la ulti
 La reincorporacion de piezas se realiza segun las reglas definidas por el juego
 </p> 
 
-# Funcionalidades no implementadas:
-
-Solo falta corregir un error al reintroducir un peon al tablero, la verificacion revisa que el rey no queda en jaque mate pero para eso la pieza ya debe estar en el tablero
-

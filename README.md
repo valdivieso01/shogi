@@ -11,7 +11,7 @@ Descargar repositorio y desde consola correr el comando python main.py
 Al ingresar comienza jugando el jugador negro(las piezas en la parte superior)
 Se ingresan dos valores que corresponden primero a la fila y luego la columna con un espacio entre los dos valores
 
-![ScreenShot](https://github.com/valdivieso01/shogi/blob/develop/assets/Screenshot_1.png)
+![ScreenShot](https://github.com/valdivieso01/shogi/blob/develop/assets/Screenshot_2.png)
 ![ScreenShot](https://github.com/valdivieso01/shogi/blob/develop/assets/Screenshot_1.png)
 
 Luego el turno pasa automaticamente al jugador blanco (las piezas en la parte inferior)

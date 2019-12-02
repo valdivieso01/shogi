@@ -4,7 +4,7 @@
 
 # Ejecucion
 
-Descargar repositorio y desde consola correr el comando python main.py
+Descargar repositorio (rama develop) y desde consola correr el comando python main.py
 
 # Como jugar
 

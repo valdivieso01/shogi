@@ -2,6 +2,24 @@
 
 # Librerias utilizadas: numpy
 
+# Ejecucion
+
+Descargar repositorio y desde consola correr el comando python main.py
+
+# Como jugar
+
+Al ingresar comienza jugando el jugador negro(las piezas en la parte superior)
+Se ingresan dos valores que corresponden primero a la fila y luego la columna con un espacio entre los dos valores
+
+Luego el turno pasa automaticamente al jugador blanco (las piezas en la parte inferior)
+Se ingresan dos valores que corresponden primero a la fila y luego la columna con un espacio entre los dos valores
+
+Cuando una de las piezas llega a las 3 filas del adversario esta pasa a ser una pieza promocionada
+
+Para reingresar piezas el juego pregunta automaticamente si desea ingresar cuando es posible
+
+Cuando el rey está en jaque el juego avisa por pantalla con un mensaje y cuadno uno de los reyes queda en jaque mate la partida termina
+
 # Funcionalidades implementadas:
 
 <p>

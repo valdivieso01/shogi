@@ -27,7 +27,7 @@ Cuando el rey está en jaque el juego avisa por pantalla con un mensaje y cuadno
 
 <p>
 
-El tablero se genera con las piezas de los jugadores donde en la aprte superior se encuentran las piezas negras y en la inferior las blancas, comienza a mover el jugador negro.
+El tablero se genera con las piezas de los jugadores donde en la parte superior se encuentran las piezas negras y en la inferior las blancas, comienza a mover el jugador negro.
 
 El programa cuenta con un archivo main donde se instancian los objetos tablero y jugador (blanco y negro). Luego se implementa la logica de los turnos y se llama a las funciones de verificacionde promociones y verificaciond e jaque. los demas archivos se utilzian apra definir las clases y metodos  para piezas, jugador y tablero.
 

@@ -28,8 +28,13 @@ while tablero.juego != 'terminado':
                     # Pongo esta condicion para poder salir si no hay reincorporacion posible
                     if pieza_muerta == 'Salir':
                         pieza_incorporada = True
+                        break
                     posicion_donde_incorporar = input("Ingrese fila y columna de la posicion donde desea reincorporar (Separados por un espacio): ")
-                    x, y = (int(item) for item in posicion_donde_incorporar.split())
+                    try:
+                        x, y = (int(item) for item in posicion_donde_incorporar.split())
+                    except ValueError:
+                        print("Formato incorrecto. Ingrese dos números separados por un espacio.")
+                        continue
                     if j1.validar_posiciones(x, y) is True:
                         if tablero.reintroducir_pieza(j1, pieza_muerta, posicion_donde_incorporar, tablero):
                             print("Pieza incorporada")
@@ -103,8 +108,13 @@ while tablero.juego != 'terminado':
                     # Pongo esta condicion para poder salir si no hay reincorporacion posible
                     if pieza_muerta == 'Salir':
                         pieza_incorporada = True
+                        break
                     posicion_donde_incorporar = input("Ingrese fila y columna de la posicion donde desea reincorporar (Separados por un espacio): ")
-                    x, y = (int(item) for item in posicion_donde_incorporar.split())
+                    try:
+                        x, y = (int(item) for item in posicion_donde_incorporar.split())
+                    except ValueError:
+                        print("Formato incorrecto. Ingrese dos números separados por un espacio.")
+                        continue
                     if j2.validar_posiciones(x, y) is True:
                         if tablero.reintroducir_pieza(j2, pieza_muerta, posicion_donde_incorporar, tablero):
                             print("Pieza incorporada")

@@ -134,9 +134,10 @@ class Tablero(object):
                     if jugador.color == 'negro':
                         # El peon no se puede ingresar en la ultima fila
                         if fila != 8:
-                            # El peon no se puede ingresar si en la misma fila hay otro peon del mismo color
-                            for j in range(8):
-                                if self.tab[fila + j][columna].__class__ == Peon and self.tab[fila + j][columna].color == 'negro':
+                            # Regla de Nifu: no puede haber dos peones no promovidos del mismo jugador en la misma columna
+                            for r in range(9):
+                                p = self.tab[r][columna]
+                                if p and p.__class__ == Peon and p.color == 'negro' and not getattr(p, 'promocion', False):
                                     return False
                             # Ingreso la pieza para verificar en el paso siguiente si hay jaque
                             self.reintroducir(i, fila, columna)
@@ -154,9 +155,10 @@ class Tablero(object):
                     elif jugador.color == 'blanco':
                         # El peon no se puede ingresar en la ultima fila
                         if fila != 0:
-                            for j in range(8):
-                                # El peon no se puede ingresar si en la misma fila hay otro peon del mismo color
-                                if self.tab[fila + j][columna].__class__ == Peon and self.tab[fila + j][columna].color == 'blanco':
+                            # Regla de Nifu: no puede haber dos peones no promovidos del mismo jugador en la misma columna
+                            for r in range(9):
+                                p = self.tab[r][columna]
+                                if p and p.__class__ == Peon and p.color == 'blanco' and not getattr(p, 'promocion', False):
                                     return False
                             # Ingreso la pieza para verificar en el paso siguiente si hay jaque
                             self.reintroducir(i, fila, columna)
@@ -171,16 +173,27 @@ class Tablero(object):
                                 return False
                         else:
                             return False
-                if i.nombre == 'L' or i.nombre == 'N':
+                elif i.nombre == 'L':
+                    # El lancero no se puede ingresar en la ultima fila
                     if jugador.color == 'negro':
-                        # El lancero o caballo no se puede ingresar en la ultima fila
                         if fila != 8:
                             return self.reintroducir(i, fila, columna)
                         else:
                             return False
                     elif jugador.color == 'blanco':
-                        # El lancero o caballo no se puede ingresar en la ultima fila
                         if fila != 0:
+                            return self.reintroducir(i, fila, columna)
+                        else:
+                            return False
+                elif i.nombre == 'N':
+                    # El caballo necesita al menos 2 casillas hacia adelante para mover
+                    if jugador.color == 'negro':
+                        if fila not in [7, 8]:
+                            return self.reintroducir(i, fila, columna)
+                        else:
+                            return False
+                    elif jugador.color == 'blanco':
+                        if fila not in [0, 1]:
                             return self.reintroducir(i, fila, columna)
                         else:
                             return False

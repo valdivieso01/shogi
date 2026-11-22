@@ -22,8 +22,12 @@ class Pieza(object):
             if tablero.tab[posicion_final[0]][posicion_final[1]].color == jugador_inactivo:
                 # Si el modo control es verdadero no se mueve la pieza en el tablero
                 if not tablero.modo_control_tablero:
-                    tablero.tab[posicion_final[0]][posicion_final[1]].color = jugador_activo
-                    tablero.piezas_muertas.append(tablero.tab[posicion_final[0]][posicion_final[1]])
+                    pieza_capturada = tablero.tab[posicion_final[0]][posicion_final[1]]
+                    pieza_capturada.color = jugador_activo
+                    # Al capturar una pieza pierde su promocion y vuelve a su estado base
+                    if hasattr(pieza_capturada, 'promocion'):
+                        pieza_capturada.promocion = False
+                    tablero.piezas_muertas.append(pieza_capturada)
                     tablero.tab[posicion_final[0]][posicion_final[1]] = tablero.tab[posicion_inicial[0]][posicion_inicial[1]]
                     tablero.tab[posicion_inicial[0]][posicion_inicial[1]] = None
                 return True
@@ -63,7 +67,7 @@ class Pieza(object):
             or posicion_final[0] == posicion_inicial[0] and posicion_final[1] == posicion_inicial[1] + 1 \
             or posicion_final[0] == posicion_inicial[0] and posicion_final[1] == posicion_inicial[1] - 1 \
             or posicion_final[0] == posicion_inicial[0] - 1 and posicion_final[1] == posicion_inicial[1] + 1 \
-            or posicion_final[0] == posicion_inicial[0] - 1 and posicion_final[1] == posicion_inicial[1] + 1:
+            or posicion_final[0] == posicion_inicial[0] - 1 and posicion_final[1] == posicion_inicial[1] - 1:
                 # Si el destino de la ficha esta libre, ponemos la pieza en ese lugar
                 return self.mover_pieza(color, tablero, posicion_inicial, posicion_final)
             else:
@@ -265,7 +269,7 @@ class Caballo(Pieza):
             if tablero.tab[posicion_inicial[0]][posicion_inicial[1]].color == 'negro':
                 # Si es una pieza del jugador negro solo puede mover 2 lugares hacia abajo y 1 para la izquierda o derecha
                 if posicion_final[0] == posicion_inicial[0] + 2 and posicion_final[1] == posicion_inicial[1] + 1 \
-                or posicion_final[0] == posicion_inicial[0] + 2 and posicion_final[0] == posicion_inicial[0] - 1:
+                or posicion_final[0] == posicion_inicial[0] + 2 and posicion_final[1] == posicion_inicial[1] - 1:
                     # Si el destino de la ficha esta libre, ponemos el caballo en ese lugar
                     return self.mover_pieza(color_de_jugador, tablero, posicion_inicial, posicion_final)
                 else:
@@ -273,7 +277,7 @@ class Caballo(Pieza):
             else:
                 # Si es una pieza del jugador blanco solo puede mover 2 lugares hacia arriba y uno a la derecha o izquierda
                 if posicion_final[0] == posicion_inicial[0] - 2 and posicion_final[1] == posicion_inicial[1] + 1 \
-                or posicion_final[0] == posicion_inicial[0] - 2 and posicion_final[0] == posicion_inicial[0] - 1:
+                or posicion_final[0] == posicion_inicial[0] - 2 and posicion_final[1] == posicion_inicial[1] - 1:
                     # Si el destino de la ficha esta libre, ponemos el caballo en ese lugar
                     return self.mover_pieza(color_de_jugador, tablero, posicion_inicial, posicion_final)
                 else:

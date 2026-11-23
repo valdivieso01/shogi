@@ -94,7 +94,7 @@ class Tablero(object):
                 if i < 3:
                     if self.tab[i][j]:
                         if self.tab[i][j].color == 'blanco':
-                            if self.tab[i][j] == GeneralOro or self.tab[i][j] == Rey:
+                            if self.tab[i][j].__class__ in (GeneralOro, Rey):
                                 pass
                             else:
                                 if self.tab[i][j].promocion is False:
@@ -104,7 +104,7 @@ class Tablero(object):
                 elif i > 5:
                     if self.tab[i][j]:
                         if self.tab[i][j].color and self.tab[i][j].color == 'negro':
-                            if self.tab[i][j] == GeneralOro or self.tab[i][j] == Rey:
+                            if self.tab[i][j].__class__ in (GeneralOro, Rey):
                                 pass
                             else:
                                 if self.tab[i][j].promocion is False:
@@ -125,7 +125,10 @@ class Tablero(object):
 
     def reintroducir_pieza(self, jugador, pieza_muerta, posicion_donde_incorporar, tablero):
         # Listo las piezas que el jugador a comido al adversario
-        fila, columna = (int(item) for item in posicion_donde_incorporar.split())
+        if isinstance(posicion_donde_incorporar, str):
+            fila, columna = (int(item) for item in posicion_donde_incorporar.split())
+        else:
+            fila, columna = int(posicion_donde_incorporar[0]), int(posicion_donde_incorporar[1])
         for i in self.piezas_muertas:
             # Verifico qie exista la pieza del color indicado
             if i.nombre == pieza_muerta and i.color == jugador.color:
@@ -139,14 +142,18 @@ class Tablero(object):
                                 p = self.tab[r][columna]
                                 if p and p.__class__ == Peon and p.color == 'negro' and not getattr(p, 'promocion', False):
                                     return False
-                            # Ingreso la pieza para verificar en el paso siguiente si hay jaque
-                            self.reintroducir(i, fila, columna)
-                            # El peon no puede ingresar delante del rey si lo pone en jaque mate o si hay otro peon de ese color
-                            if self.tab[fila - 1][columna].__class__ == Rey and jugador.verificar_jaque_mate(jugador, tablero) is False:
-                                # La pieza ya se encuentra colocada, solo devuelvo true
+                            # Ingreso la pieza para verificar en el paso siguiente si hay jaque mate (Uchifuzume)
+                            if not self.reintroducir(i, fila, columna):
+                                return False
+                            es_uchifuzume = (
+                                self.tab[fila + 1][columna] is not None
+                                and self.tab[fila + 1][columna].__class__ == Rey
+                                and jugador.verificar_jaque(jugador, tablero) is True
+                                and jugador.verificar_jaque_mate(jugador, tablero) is True
+                            )
+                            if not es_uchifuzume:
                                 return True
                             else:
-                                # Si el peon deja en jaque mate al rey lo retiro y lo vuelvo a poner en la lista de piezas muertas
                                 tablero.piezas_muertas.append(self.tab[fila][columna])
                                 self.tab[fila][columna] = None
                                 return False
@@ -160,14 +167,18 @@ class Tablero(object):
                                 p = self.tab[r][columna]
                                 if p and p.__class__ == Peon and p.color == 'blanco' and not getattr(p, 'promocion', False):
                                     return False
-                            # Ingreso la pieza para verificar en el paso siguiente si hay jaque
-                            self.reintroducir(i, fila, columna)
-                            # El peon no se puede ingresar delante del rey si lo pone en jaque mate o si hay otro peon de ese color
-                            if self.tab[fila + 1][columna].__class__ != Rey and jugador.verificar_jaque_mate(jugador, tablero) is False:
-                                # La pieza ya se encuentra colocada, solo devuelvo true
+                            # Ingreso la pieza para verificar en el paso siguiente si hay jaque mate (Uchifuzume)
+                            if not self.reintroducir(i, fila, columna):
+                                return False
+                            es_uchifuzume = (
+                                self.tab[fila - 1][columna] is not None
+                                and self.tab[fila - 1][columna].__class__ == Rey
+                                and jugador.verificar_jaque(jugador, tablero) is True
+                                and jugador.verificar_jaque_mate(jugador, tablero) is True
+                            )
+                            if not es_uchifuzume:
                                 return True
                             else:
-                                # Si el peon deja en jaque mate al rey lo retiro y lo vuelvo a poner en la lista de piezas muertas
                                 tablero.piezas_muertas.append(self.tab[fila][columna])
                                 self.tab[fila][columna] = None
                                 return False

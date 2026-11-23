@@ -74,113 +74,49 @@ class Pieza(object):
                 return False
 
     def mover_como_alfil_coronado(self, color, tablero, posicion_inicial, posicion_final):
-        i = 0
-        if posicion_final[0] == posicion_inicial[0]+1 and posicion_final[1] == posicion_inicial[1] or posicion_final[0] == posicion_inicial[0]-1 and posicion_final[1] == posicion_inicial[1] \
-        or posicion_final[0] == posicion_inicial[0] and posicion_final[1] == posicion_inicial[1]+1 or posicion_final[0] == posicion_inicial[0] and posicion_final[1] == posicion_inicial[1]-1:
-            # Si el destino está libre, movemos el alfil
+        if (abs(posicion_final[0] - posicion_inicial[0]) == 1 and posicion_final[1] == posicion_inicial[1]) or \
+           (posicion_final[0] == posicion_inicial[0] and abs(posicion_final[1] - posicion_inicial[1]) == 1):
             return self.mover_pieza(color, tablero, posicion_inicial, posicion_final)
-        elif posicion_final[0] > posicion_inicial[0] and posicion_final[1] > posicion_inicial[1]:
-            while i < 10:
-                i += 1
-                if posicion_final[0] == posicion_inicial[0] + i and posicion_final[1] == posicion_inicial[1] + i:
-                    # Si el destino de la ficha esta libre, ponemos el alfil en ese lugar
-                    return self.mover_pieza(color, tablero, posicion_inicial, posicion_final)
-                else:
-                    if tablero.tab[posicion_inicial[0] + i][posicion_inicial[1] + i] is None:
-                        continue
-                    else:
-                        return False
 
-        elif posicion_final[0] < posicion_inicial[0] and posicion_final[1] < posicion_inicial[1]:
-            while i < 10:
-                i += 1
-                if posicion_final[0] == posicion_inicial[0] - i and posicion_final[1] == posicion_inicial[1] - i:
-                    # Si el destino de la ficha esta libre, ponemos el alfil en ese lugar
-                    return self.mover_pieza(color, tablero, posicion_inicial, posicion_final)
-                else:
-                    if tablero.tab[posicion_inicial[0] - i][posicion_inicial[1] - i] is None:
-                        continue
-                    else:
-                        return False
-
-        elif posicion_final[0] < posicion_inicial[0] and posicion_final[1] > posicion_inicial[1]:
-            while i < 10:
-                i += 1
-                if posicion_final[0] == posicion_inicial[0] - i and posicion_final[1] == posicion_inicial[1] + i:
-                    # Si el destino de la ficha esta libre, ponemos el alfil en ese lugar
-                    return self.mover_pieza(color, tablero, posicion_inicial, posicion_final)
-                else:
-                    if tablero.tab[posicion_inicial[0] - i][posicion_inicial[1] + i] is None:
-                        continue
-                    else:
-                        return False
-
-        elif posicion_final[0] > posicion_inicial[0] and posicion_final[1] < posicion_inicial[1]:
-            while i < 10:
-                i += 1
-                if posicion_final[0] == posicion_inicial[0] + i and posicion_final[1] == posicion_inicial[1] - i:
-                    # Si el destino de la ficha esta libre, ponemos el alfil en ese lugar
-                    return self.mover_pieza(color, tablero, posicion_inicial, posicion_final)
-                else:
-                    if tablero.tab[posicion_inicial[0] + i][posicion_inicial[1] - i] is None:
-                        continue
-                    else:
-                        return False
-        else:
+        dr = 1 if posicion_final[0] > posicion_inicial[0] else (-1 if posicion_final[0] < posicion_inicial[0] else 0)
+        dc = 1 if posicion_final[1] > posicion_inicial[1] else (-1 if posicion_final[1] < posicion_inicial[1] else 0)
+        if dr == 0 or dc == 0:
             return False
+
+        i = 0
+        while i < 10:
+            i += 1
+            nr = posicion_inicial[0] + dr * i
+            nc = posicion_inicial[1] + dc * i
+            if not (0 <= nr < 9 and 0 <= nc < 9):
+                return False
+            if nr == posicion_final[0] and nc == posicion_final[1]:
+                return self.mover_pieza(color, tablero, posicion_inicial, posicion_final)
+            if tablero.tab[nr][nc] is not None:
+                return False
+        return False
 
     def mover_como_torre_coronada(self, color, tablero, posicion_inicial, posicion_final):
-        i = 0
-        if posicion_final[0] == posicion_inicial[0] + 1 and posicion_final[1] == posicion_inicial[1] + 1 or posicion_final[0] == posicion_inicial[0] - 1 and posicion_final[1] == posicion_inicial[1] - 1\
-        or posicion_final[0] == posicion_inicial[0] + 1 and posicion_final[1] == posicion_inicial[1] - 1 or posicion_final[0] == posicion_inicial[0] - 1 and posicion_final[1] == posicion_inicial[1] + 1:
-            # Si el destino está libre, movemos la torre
+        if abs(posicion_final[0] - posicion_inicial[0]) == 1 and abs(posicion_final[1] - posicion_inicial[1]) == 1:
             return self.mover_pieza(color, tablero, posicion_inicial, posicion_final)
-        elif posicion_final[0] > posicion_inicial[0] and posicion_final[1] > posicion_inicial[1]:
-            while i < 10:
-                i += 1
-                if posicion_final[0] == posicion_inicial[0] + i and posicion_final[1] == posicion_inicial[1] + i:
-                    # Si el destino de la ficha esta libre, ponemos la torre en ese lugar
-                    return self.mover_pieza(color, tablero, posicion_inicial, posicion_final)
-                else:
-                    if tablero.tab[posicion_inicial[0] + i][posicion_inicial[1] + i] is None:
-                        continue
-                    else:
-                        return False
-        elif posicion_final[0] < posicion_inicial[0] and posicion_final[1] == posicion_inicial[1]:
-            while i < 10:
-                i += 1
-                if posicion_final[0] == posicion_inicial[0] - i and posicion_final[1] == posicion_inicial[1] - i:
-                    # Si el destino de la ficha esta libre, ponemos el alfil en ese lugar
-                    return self.mover_pieza(color, tablero, posicion_inicial, posicion_final)
-                else:
-                    if tablero.tab[posicion_inicial[0] - i][posicion_inicial[1] - i] is None:
-                        continue
-                    else:
-                        return False
-        elif posicion_final[0] < posicion_inicial[0] and posicion_final[1] == posicion_inicial[1]:
-            while i < 10:
-                i += 1
-                if posicion_final[0] == posicion_inicial[0] - i and posicion_final[1] == posicion_inicial[1] + i:
-                    # Si el destino de la ficha esta libre, ponemos el alfil en ese lugar
-                    return self.mover_pieza(color, tablero, posicion_inicial, posicion_final)
-                else:
-                    if tablero.tab[posicion_inicial[0] - i][posicion_inicial[1] + i] is None:
-                        continue
-                    else:
-                        return False
-        elif posicion_final[0] > posicion_inicial[0] and posicion_final[1] == posicion_inicial[1]:
-            while i < 10:
-                i += 1
-                if posicion_final[0] == posicion_inicial[0] + i and posicion_final[1] == posicion_inicial[1] - i:
-                    # Si el destino de la ficha esta libre, ponemos el alfil en ese lugar
-                    return self.mover_pieza(color, tablero, posicion_inicial, posicion_final)
-                else:
-                    if tablero.tab[posicion_inicial[0] + i][posicion_inicial[1] - i] is None:
-                        continue
-                    else:
-                        return False
-        else:
+
+        dr = 1 if posicion_final[0] > posicion_inicial[0] else (-1 if posicion_final[0] < posicion_inicial[0] else 0)
+        dc = 1 if posicion_final[1] > posicion_inicial[1] else (-1 if posicion_final[1] < posicion_inicial[1] else 0)
+        if (dr != 0 and dc != 0) or (dr == 0 and dc == 0):
             return False
+
+        i = 0
+        while i < 10:
+            i += 1
+            nr = posicion_inicial[0] + dr * i
+            nc = posicion_inicial[1] + dc * i
+            if not (0 <= nr < 9 and 0 <= nc < 9):
+                return False
+            if nr == posicion_final[0] and nc == posicion_final[1]:
+                return self.mover_pieza(color, tablero, posicion_inicial, posicion_final)
+            if tablero.tab[nr][nc] is not None:
+                return False
+        return False
 
 
 class Rey(Pieza):
@@ -222,35 +158,43 @@ class Lancero(Pieza):
         i = 0
         if not tablero.tab[posicion_inicial[0]][posicion_inicial[1]].promocion:
             if tablero.tab[posicion_inicial[0]][posicion_inicial[1]].color == 'negro':
-                if posicion_final[1] == posicion_inicial[1]:
+                if posicion_final[1] == posicion_inicial[1] and posicion_final[0] > posicion_inicial[0]:
                     # Si es una pieza del jugador negro solo puede mover hacia abajo hasta encontrar el final o otra pieza
                     while i < 10:
                         i += 1
-                        if posicion_final[0] == posicion_inicial[0] + i and posicion_final[1] == posicion_inicial[1]:
+                        nr = posicion_inicial[0] + i
+                        if not (0 <= nr < 9):
+                            return False
+                        if posicion_final[0] == nr and posicion_final[1] == posicion_inicial[1]:
                             # Si el destino de la ficha esta libre, ponemos el lancero en ese lugar
                             return self.mover_pieza(color_de_jugador, tablero, posicion_inicial, posicion_final)
                         else:
-                            if tablero.tab[posicion_inicial[0] + i][posicion_inicial[1]] is None:
+                            if tablero.tab[nr][posicion_inicial[1]] is None:
                                 continue
                             else:
                                 return False
                 else:
                     return False
             else:
-                if posicion_final[1] == posicion_inicial[1]:
+                if posicion_final[1] == posicion_inicial[1] and posicion_final[0] < posicion_inicial[0]:
                     # Si es una pieza del jugador blanco solo puede mover hacia arriba ahsta encontrar el final o otra pieza
                     while i < 10:
                         i += 1
-                        if posicion_final[0] == posicion_inicial[0] - i and posicion_final[1] == posicion_inicial[1]:
+                        nr = posicion_inicial[0] - i
+                        if not (0 <= nr < 9):
+                            return False
+                        if posicion_final[0] == nr and posicion_final[1] == posicion_inicial[1]:
                             # Si el destino de la ficha esta libre, ponemos el lancero en ese lugar
                             return self.mover_pieza(color_de_jugador, tablero, posicion_inicial, posicion_final)
                         else:
-                            if tablero.tab[posicion_inicial[0] - i][posicion_inicial[1]] is None:
+                            if tablero.tab[nr][posicion_inicial[1]] is None:
                                 continue
                             else:
                                 return False
                 else:
                     return False
+        else:
+            return self.mover_pieza_promocionada(color_de_jugador, tablero, posicion_inicial, posicion_final)
 
 
 class Caballo(Pieza):
@@ -283,7 +227,7 @@ class Caballo(Pieza):
                 else:
                     return False
         else:
-            self.mover_pieza_promocionada(color_de_jugador, tablero, posicion_inicial, posicion_final)
+            return self.mover_pieza_promocionada(color_de_jugador, tablero, posicion_inicial, posicion_final)
 
 
 class GeneralOro(Pieza):
@@ -339,7 +283,7 @@ class GeneralPlata(Pieza):
             if tablero.tab[posicion_inicial[0]][posicion_inicial[1]].color == 'negro':
                 # Si es una pieza del jugador negro solo puede mover hacia abajo y cruzado para atras
                 if posicion_final[0] == posicion_inicial[0] + 1 and posicion_final[1] == posicion_inicial[1] \
-                or posicion_final[0] == posicion_inicial[0] + 1 and posicion_final[0] == posicion_inicial[0] + 1 \
+                or posicion_final[0] == posicion_inicial[0] + 1 and posicion_final[1] == posicion_inicial[1] + 1 \
                 or posicion_final[0] == posicion_inicial[0] + 1 and posicion_final[1] == posicion_inicial[1] - 1 \
                 or posicion_final[0] == posicion_inicial[0] - 1 and posicion_final[1] == posicion_inicial[1] + 1 \
                 or posicion_final[0] == posicion_inicial[0] - 1 and posicion_final[1] == posicion_inicial[1] - 1:
@@ -350,12 +294,12 @@ class GeneralPlata(Pieza):
             else:
                 # Si es una pieza del jugador blanco solo puede mover hacia arriba
                 if posicion_final[0] == posicion_inicial[0] - 1 and posicion_final[1] == posicion_inicial[1] \
-                or posicion_final[0] == posicion_inicial[0] - 1 and posicion_final[0] == posicion_inicial[0] + 1 \
+                or posicion_final[0] == posicion_inicial[0] - 1 and posicion_final[1] == posicion_inicial[1] + 1 \
                 or posicion_final[0] == posicion_inicial[0] - 1 and posicion_final[1] == posicion_inicial[1] - 1 \
                 or posicion_final[0] == posicion_inicial[0] + 1 and posicion_final[1] == posicion_inicial[1] + 1 \
                 or posicion_final[0] == posicion_inicial[0] + 1 and posicion_final[1] == posicion_inicial[1] - 1:
                     # Si el destino de la ficha esta libre, ponemos el gereral de plata en ese lugar
-                    return self.mover_pieza(color_de_jugador, tablero, posicion_inicial, posicion_inicial)
+                    return self.mover_pieza(color_de_jugador, tablero, posicion_inicial, posicion_final)
                 else:
                     return False
         else:
@@ -374,63 +318,22 @@ class Alfil(Pieza):
     def mover_alfil(self, tablero, posicion_inicial, posicion_final, color_de_jugador):
         # Verifico si la pieza tiene promocion
         if not tablero.tab[posicion_inicial[0]][posicion_inicial[1]].promocion:
-            # Es indiferente el color para mover
-            # El alfil puede mover en diagonal ahsta topar con el final del tablero o otra pieza
+            dr = 1 if posicion_final[0] > posicion_inicial[0] else (-1 if posicion_final[0] < posicion_inicial[0] else 0)
+            dc = 1 if posicion_final[1] > posicion_inicial[1] else (-1 if posicion_final[1] < posicion_inicial[1] else 0)
+            if dr == 0 or dc == 0:
+                return False
             i = 0
-            var = 0
-            if posicion_final[0] > posicion_inicial[0] and posicion_final[1] > posicion_inicial[1]:
-                var = 1
-            elif posicion_final[0] < posicion_inicial[0] and posicion_final[1] < posicion_inicial[1]:
-                var = 2
-            elif posicion_final[0] < posicion_inicial[0] and posicion_final[1] > posicion_inicial[1]:
-                var = 3
-            elif posicion_final[0] > posicion_inicial[0] and posicion_final[1] < posicion_inicial[1]:
-                var = 4
-            if var == 1:
-                while i < 10:
-                    i += 1
-                    if posicion_final[0] == posicion_inicial[0] + i and posicion_final[1] == posicion_inicial[1] + i:
-                        # Si el destino de la ficha esta libre, ponemos el alfil en ese lugar
-                        return self.mover_pieza(color_de_jugador, tablero, posicion_inicial, posicion_final)
-                    else:
-                        if tablero.tab[posicion_inicial[0] + i][posicion_inicial[1] + i] is None:
-                            continue
-                        else:
-                            return False
-            if var == 2:
-                while i < 10:
-                    i += 1
-                    if posicion_final[0] == posicion_inicial[0] - i and posicion_final[1] == posicion_inicial[1] - i:
-                        # Si el destino de la ficha esta libre, ponemos el alfil en ese lugar
-                        return self.mover_pieza(color_de_jugador, tablero, posicion_inicial, posicion_final)
-                    else:
-                        if tablero.tab[posicion_inicial[0] - i][posicion_inicial[1] - i] is None:
-                            continue
-                        else:
-                            return False
-            if var == 3:
-                while i < 10:
-                    i += 1
-                    if posicion_final[0] == posicion_inicial[0] - i and posicion_final[1] == posicion_inicial[1] + i:
-                        # Si el destino de la ficha esta libre, ponemos el alfil en ese lugar
-                        return self.mover_pieza(color_de_jugador, tablero, posicion_inicial, posicion_final)
-                    else:
-                        if tablero.tab[posicion_inicial[0] - i][posicion_inicial[1] + i] is None:
-                            continue
-                        else:
-                            return False
-            if var == 4:
-                while i < 10:
-                    i += 1
-                    if posicion_final[0] == posicion_inicial[0] + i and posicion_final[1] == posicion_inicial[1] - i:
-                        # Si el destino de la ficha esta libre, ponemos el alfil en ese lugar
-                        return self.mover_pieza(color_de_jugador, tablero, posicion_inicial, posicion_final)
-                    else:
-                        if tablero.tab[posicion_inicial[0] + i][posicion_inicial[1] - i] is None:
-                            continue
-                        else:
-                            return False
-
+            while i < 10:
+                i += 1
+                nr = posicion_inicial[0] + dr * i
+                nc = posicion_inicial[1] + dc * i
+                if not (0 <= nr < 9 and 0 <= nc < 9):
+                    return False
+                if nr == posicion_final[0] and nc == posicion_final[1]:
+                    return self.mover_pieza(color_de_jugador, tablero, posicion_inicial, posicion_final)
+                if tablero.tab[nr][nc] is not None:
+                    return False
+            return False
         else:
             return self.mover_pieza_promocionada(color_de_jugador, tablero, posicion_inicial, posicion_final)
 
@@ -447,62 +350,22 @@ class Torre(Pieza):
     def mover_torre(self, tablero, posicion_inicial, posicion_final, color_de_jugador):
         # Verifico si la pieza tiene promocion
         if not tablero.tab[posicion_inicial[0]][posicion_inicial[1]].promocion:
-            # Es indiferente el color para mover
-            # El alfil puede mover en diagonal ahsta topar con el final del tablero o otra pieza
+            dr = 1 if posicion_final[0] > posicion_inicial[0] else (-1 if posicion_final[0] < posicion_inicial[0] else 0)
+            dc = 1 if posicion_final[1] > posicion_inicial[1] else (-1 if posicion_final[1] < posicion_inicial[1] else 0)
+            if (dr != 0 and dc != 0) or (dr == 0 and dc == 0):
+                return False
             i = 0
-            var = 0
-            if posicion_final[0] > posicion_inicial[0] and posicion_final[1] == posicion_inicial[1]:
-                var = 1
-            elif posicion_final[0] < posicion_inicial[0] and posicion_final[1] == posicion_inicial[1]:
-                var = 2
-            elif posicion_final[0] == posicion_inicial[0] and posicion_final[1] > posicion_inicial[1]:
-                var = 3
-            elif posicion_final[0] == posicion_inicial[0] and posicion_final[1] < posicion_inicial[1]:
-                var = 4
-            if var == 1:
-                while i < 10:
-                    i += 1
-                    if posicion_final[0] == posicion_inicial[0] + i and posicion_final[1] == posicion_inicial[1]:
-                        # Si el destino de la ficha esta libre, ponemos el alfil en ese lugar
-                        return self.mover_pieza(color_de_jugador, tablero, posicion_inicial, posicion_final)
-                    else:
-                        if tablero.tab[posicion_inicial[0] + i][posicion_inicial[1]] is None:
-                            continue
-                        else:
-                            return False
-            if var == 2:
-                while i < 10:
-                    i += 1
-                    if posicion_final[0] == posicion_inicial[0] - i and posicion_final[1] == posicion_inicial[1]:
-                        # Si el destino de la ficha esta libre, ponemos el alfil en ese lugar
-                        return self.mover_pieza(color_de_jugador, tablero, posicion_inicial, posicion_final)
-                    else:
-                        if tablero.tab[posicion_inicial[0] - i][posicion_inicial[1]] is None:
-                            continue
-                        else:
-                            return False
-            if var == 3:
-                while i < 10:
-                    i += 1
-                    if posicion_final[0] == posicion_inicial[0] and posicion_final[1] == posicion_inicial[1] + i:
-                        # Si el destino de la ficha esta libre, ponemos el alfil en ese lugar
-                        return self.mover_pieza(color_de_jugador, tablero, posicion_inicial, posicion_final)
-                    else:
-                        if tablero.tab[posicion_inicial[0]][posicion_inicial[1] + i] is None:
-                            continue
-                        else:
-                            return False
-            if var == 4:
-                while i < 10:
-                    i += 1
-                    if posicion_final[0] == posicion_inicial[0] and posicion_final[1] == posicion_inicial[1] - i:
-                        # Si el destino de la ficha esta libre, ponemos el alfil en ese lugar
-                        return self.mover_pieza(color_de_jugador, tablero, posicion_inicial, posicion_final)
-                    else:
-                        if tablero.tab[posicion_inicial[0]][posicion_inicial[1] - i] is None:
-                            continue
-                        else:
-                            return False
+            while i < 10:
+                i += 1
+                nr = posicion_inicial[0] + dr * i
+                nc = posicion_inicial[1] + dc * i
+                if not (0 <= nr < 9 and 0 <= nc < 9):
+                    return False
+                if nr == posicion_final[0] and nc == posicion_final[1]:
+                    return self.mover_pieza(color_de_jugador, tablero, posicion_inicial, posicion_final)
+                if tablero.tab[nr][nc] is not None:
+                    return False
+            return False
         else:
             return self.mover_pieza_promocionada(color_de_jugador, tablero, posicion_inicial, posicion_final)
 

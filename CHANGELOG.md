@@ -6,6 +6,17 @@ El formato se basa en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/
 
 ---
 
+## [1.1.1] - 2026-11-23
+
+### 🐛 Corregido (Bugs de Movimiento y Reglas)
+- **Movimiento del General de Plata (*Ginshō*):** Se corrigió la condición de diagonal delantera derecha para el jugador negro y blanco (`posicion_final[1] == posicion_inicial[1] + 1`), así como el parámetro `posicion_final` en `mover_pieza` para el jugador blanco.
+- **Movimiento de Torre Coronada (*Dragón* / *Ryūō*):** Se corrigió el desplazamiento ortogonal en `mover_como_torre_coronada` (`piezas.py`), que anteriormente iteraba en diagonal por error, manteniendo además el paso de 1 casilla en las 4 diagonales.
+- **Retorno de piezas promocionadas (*Keima* y *Kyōsha*):** Se añadió el `return` faltante al delegar en `mover_pieza_promocionada` dentro de `mover_caballo` y `mover_lancero`.
+- **Límites de tablero en piezas deslizantes:** Se agregaron validaciones de rango (`0 <= nr < 9` y `0 <= nc < 9`) en `Alfil`, `Torre` y `Lancero` (normales y coronados) para evitar `IndexError` durante la proyección de líneas de ataque en `verificar_jaque`.
+- **Verificación de clase en promociones y *Uchifuzume*:** En `tablero.py`, se corrigió la comparación de clase para `GeneralOro` y `Rey` en `verificar_promociones` y la validación de jaque mate por reincorporación de peón (*Uchifuzume*) en `reintroducir_pieza`, aceptando coordenadas tanto en cadena (`"3 0"`) como en tupla (`(3, 0)`).
+
+---
+
 ## [1.1.0] - 2026-11-22
 
 ### 🐛 Corregido (Bugs y Reglas de Movimiento)
